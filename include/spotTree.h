@@ -16,14 +16,14 @@ public:
         unsigned long time,
         unsigned long numHeads
     ) const;
+protected:
+    void resize();
+    void computeSpotPrice();
 private:
     unsigned long expiry;
     double up;
     double down;
     double spot;
     std::vector<std::vector<double> > theTree;
-
-    void resize();
-    void computeSpotPrice();
 };
 #endif

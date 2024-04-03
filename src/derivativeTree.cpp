@@ -4,7 +4,9 @@ DerivativeTree::DerivativeTree(
     double up,
     double down,
     double r_,
-    unsigned long expiry
+    unsigned long expiry,
+    const SpotTree& theSpotTree,
+    const PathIndependentOption& theOption
     )
     :
     r(r_)
@@ -12,6 +14,7 @@ DerivativeTree::DerivativeTree(
     p = (1+r_ - down)/(up - down);
     q = (up - 1 - r_)/(up - down);
     resizeTrees(expiry);
+    computeDerivativePrice(theSpotTree,theOption);
 }
 
 void DerivativeTree::resizeTrees(unsigned long depth)
@@ -52,14 +55,10 @@ void DerivativeTree::computeDerivativePrice(
     std::vector<bool> executionTimes = theOption.getExecutionTimes();
     for (int t=price.size()-1; t>=0 ;t--)
     {   
-        std::cout << "t: "<< t <<"\n";
         for (unsigned long numHeads=0; numHeads<=t; numHeads++)
         {
             double intrinsicVal = (executionTimes[t] == true)? getIntrinsicVal(t, numHeads, theSpotTree, theOption) : std::numeric_limits<double>::lowest();
             double discountedFuture = (t<=price.size() - 2)? getDiscountedFuture(t, numHeads): std::numeric_limits<double>::lowest();
-            std::cout << "computed intrinsic value and discounted future\n";
-            std::cout << "Intrinsic value: "<< intrinsicVal <<"\n";
-            std::cout << "Discounted value: "<< discountedFuture <<"\n";
             if (intrinsicVal<discountedFuture)
                 {
                     price[t][t-numHeads] = discountedFuture;

@@ -5,7 +5,8 @@ PricingEngine::PricingEngine(
     double down_,
     double r_,
     unsigned long expiry_,
-    double spot
+    double spot,
+    const PathIndependentOption& theOption
     )
     :
     up(up_),
@@ -17,25 +18,22 @@ PricingEngine::PricingEngine(
         up_,
         down_,
         spot
+    ),
+    theDerivativeTree(
+        up_,
+        down_,
+        r_,
+        expiry_,
+        theSpotTree,
+        theOption
     )
 {
 }
 
-DerivativeTree PricingEngine::computeDerivativePrice(
-    const PathIndependentOption& theOption
-)
+double PricingEngine::getFutureDerivativePrice(
+    unsigned long time,
+    unsigned long numHeads
+) const
 {
-    DerivativeTree theDerivativeTree(
-        up,
-        down,
-        r,
-        expiry
-    );
-    std::cout << "Derivative tree initialized.\n";
-    theDerivativeTree.computeDerivativePrice(
-        theSpotTree,
-        theOption
-    );
-    std::cout << "Derivative price is computed.\n";
-    return theDerivativeTree;
+    return theDerivativeTree.getFutureDerivativePrice(time, numHeads);
 }

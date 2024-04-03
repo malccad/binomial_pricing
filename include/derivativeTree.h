@@ -10,25 +10,19 @@ public:
         double up,
         double down,
         double r,
-        unsigned long expiry
-    );
-
-    void computeDerivativePrice(
+        unsigned long expiry,
         const SpotTree& theSpotTree,
-        const PathIndependentOption& theOption);
-
+        const PathIndependentOption& theOption
+    );
     double getFutureDerivativePrice(
         unsigned long time,
         unsigned long numHeads
     ) const;
-private:
-    double p;
-    double q;
-    double r;
-    std::vector<std::vector<double> > price;
-    std::vector<std::vector<bool> > executionStrategy;
-
+protected:
     void resizeTrees(unsigned long depth);
+    void computeDerivativePrice(
+        const SpotTree& theSpotTree,
+        const PathIndependentOption& theOption);
     double getIntrinsicVal(
         unsigned long time,
         unsigned long numHeads,
@@ -39,5 +33,12 @@ private:
         unsigned long time,
         unsigned long numHeads
     ) const;
+private:
+    double p;
+    double q;
+    double r;
+    std::vector<std::vector<double> > price;
+    std::vector<std::vector<bool> > executionStrategy;
+
 };
 #endif

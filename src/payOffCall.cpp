@@ -1,6 +1,6 @@
 #include "../include/payOffCall.h"
-PayOffCall::PayOffCall(double strike_)
-    :strike(strike_)
+PayOffCall::PayOffCall(std::map<std::string, double> payOffParams_)
+    :payOffParams(payOffParams_)
 {}
 
 PayOff* PayOffCall::clone() const
@@ -10,5 +10,7 @@ PayOff* PayOffCall::clone() const
 
 double PayOffCall::operator()(double spot) const
 {
+    std::map<std::string, double>::const_iterator i = payOffParams.find("strike");
+    double strike = i->second;
     return (spot-strike<0.0)? 0.0 : spot-strike;
 }

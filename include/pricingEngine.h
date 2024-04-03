@@ -12,14 +12,16 @@ public:
         double down,
         double r,
         unsigned long expiry,
-        double spot
-    );
-    DerivativeTree computeDerivativePrice(
+        double spot,
         const PathIndependentOption& theOption
     );
-
+    double getFutureDerivativePrice(
+        unsigned long time,
+        unsigned long numHeads
+    ) const;
 private:
     SpotTree theSpotTree;
+    DerivativeTree theDerivativeTree;
     double up;
     double down;
     double r;

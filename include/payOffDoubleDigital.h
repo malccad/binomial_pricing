@@ -1,15 +1,15 @@
-#ifndef PAYOFF_CALL_H
-#define PAYOFF_CALL_H
+#ifndef PAYOFF_DOUBLE_DIGITAL_H
+#define PAYOFF_DOUBLE_DIGITAL_H
 #include "payOff.h"
 #include <map>
 #include <string>
-class PayOffCall: public PayOff
+class PayOffDoubleDigital: public PayOff
 {
 public:
-    PayOffCall(std::map<std::string, double> payOffParams_);
+    PayOffDoubleDigital(std::map<std::string, double> payOffParams_);
 
     virtual PayOff* clone() const;
-    virtual ~PayOffCall(){}
+    virtual ~PayOffDoubleDigital(){}
 
     virtual double operator()(double spot) const;
 private:

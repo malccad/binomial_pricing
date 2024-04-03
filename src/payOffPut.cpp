@@ -1,6 +1,6 @@
 #include "../include/payOffPut.h"
-PayOffPut::PayOffPut(double strike_)
-    :strike(strike_)
+PayOffPut::PayOffPut(std::map<std::string, double> payOffParams_)
+    :payOffParams(payOffParams_)
 {}
 
 PayOff* PayOffPut::clone() const
@@ -10,5 +10,7 @@ PayOff* PayOffPut::clone() const
 
 double PayOffPut::operator()(double spot) const
 {
-    return (strike-spot<0.0)? 0.0 : spot-strike;
+    std::map<std::string, double>::const_iterator i = payOffParams.find("strike");
+    double strike = i->second;
+    return (spot > strike)? 0.0 : strike-spot;
 }
